@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eydstest.data.model.GIFObject
@@ -46,6 +47,7 @@ class SearchGifFragment : Fragment() {
 
         mBinding.recylerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
             mAdapter = SearchGifAdapter(requireContext()) { gifObject ->
                 mViewModel.toggleFavorite(gifObject)
             }

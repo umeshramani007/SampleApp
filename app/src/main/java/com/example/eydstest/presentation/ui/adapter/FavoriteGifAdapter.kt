@@ -40,6 +40,7 @@ class FavoriteGifAdapter(
         gifList[position].apply {
             Glide.with(context)
                 .load(images.preview_webp.url)
+                .placeholder(R.drawable.placeholder)
                 .into((holder as SearchGIFHolder).imageView)
 
             holder.imgFavorite.tag = this

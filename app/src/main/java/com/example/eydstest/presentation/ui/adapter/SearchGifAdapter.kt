@@ -50,6 +50,7 @@ class SearchGifAdapter(
 
             Glide.with(context)
                 .load(images.preview_webp.url)
+                .placeholder(R.drawable.placeholder)
                 .into((holder as SearchGIFHolder).imageView)
 
             holder.imgFavorite.setImageResource(if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_not_favorite)
