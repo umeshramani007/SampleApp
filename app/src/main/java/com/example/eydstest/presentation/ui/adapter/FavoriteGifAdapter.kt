@@ -8,6 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.eydstest.R
@@ -21,7 +24,7 @@ class FavoriteGifAdapter(
     val onFavoriteClick: (gifObject: GIFObject) -> Unit
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
+    private val layoutInflater = LayoutInflater.from(context)
     private var gifList: ArrayList<GIFObject> = ArrayList()
 
     fun setData(gifList: List<GIFObject>) {
@@ -31,33 +34,31 @@ class FavoriteGifAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return SearchGIFHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_search_gif, parent, false)
+            DataBindingUtil.inflate<ViewDataBinding>(
+                layoutInflater,
+                R.layout.item_search_gif,
+                parent,
+                false
+            )
         )
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
         gifList[position].apply {
-            Glide.with(context)
-                .load(images.preview_webp.url)
-                .placeholder(R.drawable.placeholder)
-                .into((holder as SearchGIFHolder).imageView)
-
-            holder.imgFavorite.tag = this
+            isFavorite = true
+            (holder as SearchGIFHolder).mBinding.setVariable(BR.gifObject, this)
         }
-
     }
 
     override fun getItemCount(): Int {
         return gifList.size
     }
 
-    inner class SearchGIFHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageView = itemView.findViewById<ImageView>(R.id.imageView)
-        val imgFavorite = itemView.findViewById<ImageView>(R.id.imgFavorite)
+    inner class SearchGIFHolder(binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
+        val mBinding = binding
+        private val imgFavorite: ImageView = itemView.findViewById(R.id.imgFavorite)
 
         init {
-            imgFavorite.setImageResource(R.drawable.ic_favorite)
             imgFavorite.setOnClickListener {
                 val gifObject = it.tag as GIFObject
                 onFavoriteClick.invoke(gifObject)
