@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">EYDSTest</string>
+    <string name="no_data">No Data</string>
+    <string name="hint_search">Search here</string>
+</resources>
